@@ -1,0 +1,1 @@
+from pyowlunit.suite import TestSuite

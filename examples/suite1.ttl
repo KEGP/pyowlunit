@@ -1,0 +1,7 @@
+@prefix owlunit: <https://w3id.org/OWLunit/ontology/> .
+@prefix ex: <.> .
+
+ex:suite1.ttl a owlunit:TestSuite ;
+	owlunit:hasTestCase ex:cq1.ttl .
+
+ex:cq1.ttl a owlunit:CompetencyQuestionVerification .
