@@ -12,11 +12,14 @@ parser.add_argument("-f", "--format", nargs="?", const="xml", metavar="format",
 args = parser.parse_args()
 
 # Color results
-logger = colorlog.getLogger("pyowlunit")
+logger = colorlog.getLogger()
 handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter('%(log_color)s[%(name)s] %(message)s'))
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
+
+# logger for pyowlunit executable
+logger = colorlog.getLogger("pyowlunit")
 
 try:
   ts = TestSuite(args.suite, format=args.format)
