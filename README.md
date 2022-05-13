@@ -1,7 +1,7 @@
 # pyowlunit
 
 Python implementation of the Owl Unit testing suite.
-Refer to the (official repository)[https://github.com/luigi-asprino/owl-unit] for additional informations.
+Refer to the [official repository](https://github.com/luigi-asprino/owl-unit) for additional informations.
 
 * **Only supports competency questions verification**
 * Support for local and online ontologies
