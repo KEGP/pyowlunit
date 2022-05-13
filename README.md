@@ -24,3 +24,9 @@ usage: pyowlunit.py [-h] -s suite [-f [format]]
 [CQ] What are the interests of a certain person? - PASSED
 [SUITE] CQ: 1/1 passed
 ```
+
+```
+> python pyowlunit.py -s https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/suite.ttl -f turtle
+[CQ] What are the interests of a certain person? - PASSED
+[SUITE] CQ: 1/1 passed
+```
