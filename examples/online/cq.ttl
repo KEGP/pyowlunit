@@ -1,5 +1,5 @@
 @prefix owlunit: <https://w3id.org/OWLunit/ontology/> .
-@prefix ex: <.> .
+@prefix ex: <<https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
 ex:cq.ttl a owlunit:CompetencyQuestionVerification ;
