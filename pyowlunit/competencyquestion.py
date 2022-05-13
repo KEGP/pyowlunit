@@ -45,6 +45,7 @@ class CompetencyQuestionVerification(object):
     logger.debug("CQ Graph parsed")
 
     cq_data = self.cq_graph.query(CQ_DATA_QUERY)
+    assert len(cq_data) > 0, f"No competency question defined at uri {testuri}"
     assert len(cq_data) == 1, f"More than one competency question defined at uri {testuri}"
     # extract query result
     cq_data = list(cq_data)[0]

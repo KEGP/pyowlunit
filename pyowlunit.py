@@ -12,11 +12,14 @@ parser.add_argument("-f", "--format", nargs="?", const="xml", metavar="format",
 args = parser.parse_args()
 
 # Color results
-logger = colorlog.getLogger()
+logger = colorlog.getLogger("pyowlunit")
 handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter('%(log_color)s[%(name)s] %(message)s'))
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
-ts = TestSuite(args.suite, format=args.format)
-ts.test()
+try:
+  ts = TestSuite(args.suite, format=args.format)
+  ts.test()
+except AssertionError as e:
+  logger.critical(f"{e}")
