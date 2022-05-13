@@ -2,6 +2,6 @@
 @prefix ex: <.> .
 
 ex:suite1.ttl a owlunit:TestSuite ;
-	owlunit:hasTestCase ex:cq1.ttl .
+	owlunit:hasTestCase ex:cq.ttl .
 
-ex:cq1.ttl a owlunit:CompetencyQuestionVerification .
+ex:cq.ttl a owlunit:CompetencyQuestionVerification .
