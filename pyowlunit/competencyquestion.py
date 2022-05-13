@@ -41,7 +41,8 @@ class CompetencyQuestionVerification(object):
     """
     # build the inner graph containing the test competency question
     self.cq_graph = rdflib.Graph()
-    self.cq_graph.parse(testuri, format=format)
+    self.format = format
+    self.cq_graph.parse(testuri, format=self.format)
     logger.debug("CQ Graph parsed")
 
     cq_data = self.cq_graph.query(CQ_DATA_QUERY)
@@ -75,7 +76,7 @@ class CompetencyQuestionVerification(object):
         bool: True if the test didn't fail.
     """
     cq_data = rdflib.Graph()
-    cq_data.parse(self.input_uri)
+    cq_data.parse(self.input_uri, format=self.format)
 
     # execute query
     result = cq_data.query(self.sparql_test_query)
