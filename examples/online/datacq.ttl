@@ -1,4 +1,4 @@
-@prefix ex: <<https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
+@prefix ex: <https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
 ex:Luigi foaf:interest ex:Basketball .
