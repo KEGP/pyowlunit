@@ -2,6 +2,8 @@
 @prefix ex: <https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
 
 ex:suite.ttl a owlunit:TestSuite ;
-	owlunit:hasTestCase ex:cq.ttl .
+	owlunit:hasTestCase ex:cq.ttl ;
+	owlunit:hasTestCase ex:ep.ttl .
 
 ex:cq.ttl a owlunit:CompetencyQuestionVerification .
+ex:ep.ttl a owlunit:ErrorProvocation .

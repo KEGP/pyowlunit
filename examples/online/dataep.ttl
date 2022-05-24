@@ -1,0 +1,8 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix ex: <https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+ex: owl:imports dul: .
+
+ex:i a dul:Person .
+ex:i a dul:Event .

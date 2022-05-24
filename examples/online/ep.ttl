@@ -1,0 +1,7 @@
+@prefix owlunit: <https://w3id.org/OWLunit/ontology/> .
+@prefix ex: <https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+ex:ep.ttl a owlunit:ErrorProvocation ;
+	owlunit:hasInputData ex:dataep.ttl ;
+ 	owlunit:testsOntology dul: .

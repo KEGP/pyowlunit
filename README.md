@@ -22,11 +22,13 @@ usage: pyowlunit.py [-h] -s suite [-f [format]]
 ```
 > python pyowlunit.py -s examples/local/suite.ttl -f turtle
 [CQ] What are the interests of a certain person? - PASSED
-[SUITE] CQ: 1/1 passed
+[EP] PASSED
+[SUITE] 2/2 test passed.
 ```
 
 ```
 > python pyowlunit.py -s https://raw.githubusercontent.com/KEGP/pyowlunit/main/examples/online/suite.ttl -f turtle
 [CQ] What are the interests of a certain person? - PASSED
-[SUITE] CQ: 1/1 passed
+[EP] PASSED
+[SUITE] 2/2 test passed.
 ```
