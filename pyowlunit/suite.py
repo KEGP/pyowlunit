@@ -1,15 +1,18 @@
 import rdflib
 from pyowlunit.competencyquestion import CompetencyQuestionVerification
+from pyowlunit.errorprovocation import ErrorProvocation
 import logging
+from collections import defaultdict
 
-CQ_QUERY = """
+TESTS_QUERY = """
 PREFIX owlunit: <https://w3id.org/OWLunit/ontology/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?cq
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?tc ?tcType
 WHERE {
     ?suite rdf:type owlunit:TestSuite ;
-           owlunit:hasTestCase ?cq .
-    ?cq rdf:type owlunit:CompetencyQuestionVerification .
+           owlunit:hasTestCase ?tc .
+    ?tc rdf:type ?tcType .
 }
 """
 
@@ -17,6 +20,10 @@ class TestSuite(object):
   """
   Represent an Owl Unit test suite as a python object
   """
+  TEST_CLASS_BIND = {
+    "https://w3id.org/OWLunit/ontology/CompetencyQuestionVerification": CompetencyQuestionVerification,
+    "https://w3id.org/OWLunit/ontology/ErrorProvocation": ErrorProvocation
+  }
 
   def __init__(self, testuri: str, format: str = "xml"):
     """
@@ -35,16 +42,21 @@ class TestSuite(object):
     self.suite_graph = rdflib.Graph()
     self.suite_graph.parse(testuri, format=format)
 
-    # extract competency questions
-    cq_tests = self.suite_graph.query(CQ_QUERY)
-    if len(cq_tests) > 0:
-      self.competency_questions = [
-        CompetencyQuestionVerification(str(x.cq), format=format) for x in cq_tests
-      ]
-    else:
-      self.competency_questions = None
-    self.passed_cq_tests = 0
+    self.tests = defaultdict(set)
+    self.passed_tests = set()
+    
+    # extract tests
+    extracted_tests = self.suite_graph.query(TESTS_QUERY)
+    # more than one test is required
+    assert len(extracted_tests) > 0, "Test suite is empty!"
 
+    for uri, test_type in extracted_tests:
+      if uri is not None:
+        uri = str(uri)
+        test_type = str(test_type)
+        Cls = self.TEST_CLASS_BIND[test_type]
+        self.tests[test_type].add(Cls(uri, format=format))
+  
   def test_competency_questions(self):
     """
     Run the competency questions and give feedback to the user by logging
@@ -52,14 +64,29 @@ class TestSuite(object):
     """
     log = logging.getLogger("CQ")
 
-    for cq in self.competency_questions:
+    for cq in self.tests["https://w3id.org/OWLunit/ontology/CompetencyQuestionVerification"]:
       try:
         cq.test()
         log.info(f"{cq.competency_question} - PASSED")
-        self.passed_cq_tests += 1
+        self.passed_tests.add(cq)
       except Exception as e:
         # TODO: Better error handling
         log.error(f"{cq.competency_question} - ERROR {e}")
+
+  def test_error_provocation(self):
+    """
+    Run the error provocation tests.
+    """
+    log = logging.getLogger("EP")
+
+    for ep in self.tests["https://w3id.org/OWLunit/ontology/ErrorProvocation"]:
+      try:
+        ep.test()
+        log.info(f"PASSED")
+        self.passed_tests.add(ep)
+      except Exception as e:
+        # TODO: Better error handling
+        log.error(f"ERROR")
 
   def test(self):
     """Run all tests"""
@@ -67,6 +94,8 @@ class TestSuite(object):
     
     log.debug("Running CQ tests")
     self.test_competency_questions()
-    log.warning(f"CQ: {self.passed_cq_tests}/{len(self.competency_questions)} passed")
+    log.debug("Running EP tests")
+    self.test_error_provocation()
 
+    log.warning(f"{len(self.passed_tests)}/{len(self.tests)} test passed.")
     
