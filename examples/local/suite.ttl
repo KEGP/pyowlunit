@@ -3,7 +3,9 @@
 
 ex:suite.ttl a owlunit:TestSuite ;
 	owlunit:hasTestCase ex:cq.ttl ;
-	owlunit:hasTestCase ex:ep.ttl .
+	owlunit:hasTestCase ex:ep.ttl ;
+	owlunit:hasTestCase ex:av.ttl .
 
 ex:cq.ttl a owlunit:CompetencyQuestionVerification .
 ex:ep.ttl a owlunit:ErrorProvocation .
+ex:av.ttl a owlunit:AnnotationVerification .

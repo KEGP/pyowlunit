@@ -1,3 +1,4 @@
 rdflib
 colorlog
 dictdiffer
+jpype

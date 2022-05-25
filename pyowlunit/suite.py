@@ -1,6 +1,7 @@
 import rdflib
 from pyowlunit.competencyquestion import CompetencyQuestionVerification
 from pyowlunit.errorprovocation import ErrorProvocation
+from pyowlunit.annotationverification import AnnotationVerification
 import logging
 from collections import defaultdict
 
@@ -22,7 +23,8 @@ class TestSuite(object):
   """
   TEST_CLASS_BIND = {
     "https://w3id.org/OWLunit/ontology/CompetencyQuestionVerification": CompetencyQuestionVerification,
-    "https://w3id.org/OWLunit/ontology/ErrorProvocation": ErrorProvocation
+    "https://w3id.org/OWLunit/ontology/ErrorProvocation": ErrorProvocation,
+    "https://w3id.org/OWLunit/ontology/AnnotationVerification": AnnotationVerification
   }
 
   def __init__(self, testuri: str, format: str = "xml"):
@@ -30,6 +32,7 @@ class TestSuite(object):
     Initialize the test suite by loading the suite graph and 
     intializing all the testing tasks
     # TODO: Support other types of tests
+    # TODO: Support different level of annotation verification severity
 
     Args:
         testuri (str): URI of the test, a path to a local file
@@ -88,6 +91,21 @@ class TestSuite(object):
         # TODO: Better error handling
         log.error(f"ERROR")
 
+  def test_annotation_verification(self):
+    """
+    Run the error provocation tests.
+    """
+    log = logging.getLogger("AV")
+
+    for av in self.tests["https://w3id.org/OWLunit/ontology/AnnotationVerification"]:
+      try:
+        av.test()
+        log.info(f"PASSED")
+        self.passed_tests.add(av)
+      except Exception as e:
+        # TODO: Better error handling
+        log.error(f"ERROR \n  {str(e).strip()}")
+
   def test(self):
     """Run all tests"""
     log = logging.getLogger("SUITE")
@@ -96,6 +114,8 @@ class TestSuite(object):
     self.test_competency_questions()
     log.debug("Running EP tests")
     self.test_error_provocation()
+
+    self.test_annotation_verification()
 
     log.warning(f"{len(self.passed_tests)}/{len(self.tests)} test passed.")
     

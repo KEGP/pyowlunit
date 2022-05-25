@@ -1,0 +1,6 @@
+@prefix owlunit: <https://w3id.org/OWLunit/ontology/> .
+@prefix ex: <https://w3id.org/OWLunit/examples/> .
+@prefix pizza: <./pizza.owl> .
+
+ex:av.ttl a owlunit:AnnotationVerification ;
+	owlunit:testsOntology pizza: .

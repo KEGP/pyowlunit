@@ -10,15 +10,36 @@ class DeserializationError(OwlUnitException):
   """
   pass
 
+class AVViolation(OwlUnitException):
+  """
+  This exception is used when a violation is found on annotation verification.
+  """
+  def __init__(self, violations: List[Tuple[str, str, str]]):
+    """
+    Args:
+        differences (List[Tuple[str, str, str]]): List of violations in the form (node, message, severity)
+    """
+    self.viol = violations
+
+  def __str__(self) -> str:
+    """
+    Build error string from found differences
+
+    Returns:
+        str: Error string built upon found differences
+    """
+    return "  ".join([f"`{node}` {severity}: {msg}\n" for node, msg, severity in self.viol])
+
+
 class CQUnexpectedResponse(OwlUnitException):
   """
   This exception is used when an unexpected response have been found
   while checking a competency questions.
   """
-  def __init__(self, differences: List[Tuple]):
+  def __init__(self, differences: List[Tuple[str, str]]):
     """
     Args:
-        differences (List[Tuple]): List of tuples in the form (expected, found)
+        differences (List[Tuple[str, str]]): List of tuples in the form (expected, found)
     """
     self.diff = differences
 
