@@ -10,6 +10,13 @@ class DeserializationError(OwlUnitException):
   """
   pass
 
+class ErrorProvocationFailure(OwlUnitException):
+  """
+  Exception to be used when an ErrorProvocation tests fails becuase
+  the ontology is indeed consistent.
+  """
+  pass
+
 class AVViolation(OwlUnitException):
   """
   This exception is used when a violation is found on annotation verification.

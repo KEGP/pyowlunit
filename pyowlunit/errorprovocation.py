@@ -5,8 +5,25 @@ from typing import Union
 import logging
 from pyowlunit import errors
 import dictdiffer
-import subprocess
 import os
+from glob import glob
+
+# initialize jpype with jena jars
+import jpype
+import jpype.imports
+from jpype.types import *
+cur_dir_path = os.path.dirname(os.path.realpath(__file__))
+jars = os.path.join(cur_dir_path, "bin", "owlapi-5.1.20.jar")
+if jpype.isJVMStarted():
+  for jar in jars:
+    jpype.addClassPath(jar)
+else:
+  jpype.startJVM(classpath=jars)
+# import java needed classes
+from org.semanticweb.owlapi.apibinding import OWLManager
+from org.semanticweb.owlapi.reasoner import SimpleConfiguration
+from org.semanticweb.owlapi.model import IRI
+from org.semanticweb.HermiT import ReasonerFactory
 
 logger = logger = logging.getLogger('EP')
 
@@ -65,19 +82,19 @@ class ErrorProvocation(object):
     Returns:
         bool: True if the test didn't fail.
     """
-    # get HermiT path
-    cur_dir_path = os.path.dirname(os.path.realpath(__file__))
-    hermit_path = os.path.join(cur_dir_path, "bin", "HermiT.jar")
+    # turn input ontology into IRI
+    inputDataIRI = IRI.create(self.input_uri)
+    # load ontology in owlapi lib
+    ontologyManager = OWLManager.createOWLOntologyManager()
+    owlOntology = ontologyManager.loadOntology(inputDataIRI)
+    # build reasoner
+    reasoner = ReasonerFactory().createReasoner(owlOntology, SimpleConfiguration())
+    consistent = reasoner.isConsistent()
+
+    if consistent is True:
+      raise errors.ErrorProvocationFailure()
     
-    # test ontology using HermiT (java needs to be available)
-    passed = False
-    try:
-      subprocess.check_call(["java", "-jar", hermit_path, "-c", self.input_uri], stderr=subprocess.DEVNULL)
-    except subprocess.CalledProcessError:
-      # ontology is indeed inconsistent (process throwed a Java Exception, equivalent to return(-1))
-      passed = True
-    
-    return passed
+    return consistent
   
 
     
