@@ -4,6 +4,6 @@
 
 ex:iv.ttl a owlunit:InferenceVerification ;
 	owlunit:hasInputData ex:dataiv.ttl ;
-	owlunit:hasSPARQLUnitTest "PREFIX ex: <https://w3id.org/OWLunit/examples/> PREFIX dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>  ASK { data:Luigi a dul:Person }" ;
+	owlunit:hasSPARQLUnitTest "PREFIX ex: <https://w3id.org/OWLunit/examples/> PREFIX dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>  ASK { ex:Luigi a dul:Person }" ;
 	owlunit:hasExpectedResult true ;
  	owlunit:testsOntology dul: .
