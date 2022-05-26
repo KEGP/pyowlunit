@@ -108,6 +108,9 @@ class AnnotationVerification(object):
     # remove IRI from entities
     remove_iri = lambda iri: iri.split("#")[-1] if "#" in iri else iri.split("/")[-1]
     errors = map(lambda x: (remove_iri(x[0]), str(x[1]), remove_iri(x[2])), errors)
+    # filter out empty errors
+    errors = filter(lambda x: all(map(lambda y: len(y) > 0, x)), errors)
+
     errors = list(errors)
 
     if len(errors) > 0:
