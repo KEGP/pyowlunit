@@ -2,6 +2,7 @@ import rdflib
 from pyowlunit.competencyquestion import CompetencyQuestionVerification
 from pyowlunit.errorprovocation import ErrorProvocation
 from pyowlunit.annotationverification import AnnotationVerification
+from pyowlunit.inferenceverification import InferenceVerification
 import logging
 from collections import defaultdict
 
@@ -24,7 +25,8 @@ class TestSuite(object):
   TEST_CLASS_BIND = {
     "https://w3id.org/OWLunit/ontology/CompetencyQuestionVerification": CompetencyQuestionVerification,
     "https://w3id.org/OWLunit/ontology/ErrorProvocation": ErrorProvocation,
-    "https://w3id.org/OWLunit/ontology/AnnotationVerification": AnnotationVerification
+    "https://w3id.org/OWLunit/ontology/AnnotationVerification": AnnotationVerification,
+    "https://w3id.org/OWLunit/ontology/InferenceVerification": InferenceVerification
   }
 
   def __init__(self, testuri: str, format: str = "xml"):
@@ -106,6 +108,21 @@ class TestSuite(object):
         # TODO: Better error handling
         log.error(f"ERROR \n  {str(e).strip()}")
 
+  def test_inference_verification(self):
+    """
+    Run the inference verification tests.
+    """
+    log = logging.getLogger("IV")
+
+    for iv in self.tests["https://w3id.org/OWLunit/ontology/InferenceVerification"]:
+      try:
+        iv.test()
+        log.info(f"PASSED")
+        self.passed_tests.add(iv)
+      except Exception as e:
+        # TODO: Better error handling
+        log.error(f"ERROR - {e}")
+
   def test(self):
     """Run all tests"""
     log = logging.getLogger("SUITE")
@@ -114,8 +131,10 @@ class TestSuite(object):
     self.test_competency_questions()
     log.debug("Running EP tests")
     self.test_error_provocation()
-
+    log.debug("Running AV tests")
     self.test_annotation_verification()
+    log.debug("Running IV tests")
+    self.test_inference_verification()
 
     log.warning(f"{len(self.passed_tests)}/{len(self.tests)} test passed.")
     

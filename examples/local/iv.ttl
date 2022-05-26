@@ -1,0 +1,9 @@
+@prefix owlunit: <https://w3id.org/OWLunit/ontology/> .
+@prefix ex: <.> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+ex:iv.ttl a owlunit:InferenceVerification ;
+	owlunit:hasInputData ex:ivdata.ttl ;
+	owlunit:hasSPARQLUnitTest "PREFIX data: <http://example.org/>  PREFIX dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>  ASK { data:Luigi a dul:Person }" ;
+	owlunit:hasExpectedResult true ;
+ 	owlunit:testsOntology dul: .

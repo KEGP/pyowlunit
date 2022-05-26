@@ -17,6 +17,12 @@ class ErrorProvocationFailure(OwlUnitException):
   """
   pass
 
+class InferenceVerificationError(OwlUnitException):
+  """
+  Exception to be used when an InferenceVerification tests fails.
+  """
+  pass
+
 class AVViolation(OwlUnitException):
   """
   This exception is used when a violation is found on annotation verification.
