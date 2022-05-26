@@ -21,6 +21,8 @@ usage: pyowlunit.py [-h] -s suite [-f [format]]
 ## Example
 ```
 > python pyowlunit.py -s examples/local/suite.ttl -f turtle
+.
+.
 [CQ] What are the interests of a certain person? - PASSED
 [EP] PASSED
 [AV] ERROR 
@@ -30,7 +32,8 @@ usage: pyowlunit.py [-h] -s suite [-f [format]]
   .
   .
   .
-[SUITE] 2/3 test passed.
+[IV] PASSED
+[SUITE] 3/4 test passed.
 ```
 
 ```
