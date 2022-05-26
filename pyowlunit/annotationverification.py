@@ -5,27 +5,16 @@ from typing import Union
 import logging
 from pyowlunit.errors import AVViolation
 import dictdiffer
-import subprocess
-import os
-from glob import glob
 
-# initialize jpype with jena jars
-import jpype
-import jpype.imports
-from jpype.types import *
-cur_dir_path = os.path.dirname(os.path.realpath(__file__))
-jars = glob(os.path.join(cur_dir_path, "bin", "jena", "*.jar"))
-if jpype.isJVMStarted():
-  for jar in jars:
-    jpype.addClassPath(jar)
-else:
-  jpype.startJVM(classpath=jars)
-# import java needed classes
+import pyowlunit.utils.javabridge as jb
+jb.load_jena()
+
 from org.apache.jena.rdf.model import ModelFactory
 from org.apache.jena.riot import RDFDataMgr
 from org.topbraid.shacl.validation import ValidationUtil
 from java.io import ByteArrayOutputStream
 from java.lang import String
+
 logger = logger = logging.getLogger('AV')
 
 AV_DATA_QUERY = """

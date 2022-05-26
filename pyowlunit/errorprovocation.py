@@ -1,25 +1,12 @@
 import rdflib
 from rdflib.namespace import RDF
-import json
 from typing import Union
 import logging
 from pyowlunit import errors
-import dictdiffer
-import os
-from glob import glob
 
-# initialize jpype with jena jars
-import jpype
-import jpype.imports
-from jpype.types import *
-cur_dir_path = os.path.dirname(os.path.realpath(__file__))
-jars = os.path.join(cur_dir_path, "bin", "owlapi-5.1.20.jar")
-if jpype.isJVMStarted():
-  for jar in jars:
-    jpype.addClassPath(jar)
-else:
-  jpype.startJVM(classpath=jars)
-# import java needed classes
+import pyowlunit.utils.javabridge as jb
+jb.load_owlapi()
+
 from org.semanticweb.owlapi.apibinding import OWLManager
 from org.semanticweb.owlapi.reasoner import SimpleConfiguration
 from org.semanticweb.owlapi.model import IRI
