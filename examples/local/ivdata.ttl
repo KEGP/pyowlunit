@@ -1,4 +1,0 @@
-@prefix data: <http://example.org/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
-
-data:Luigi a dul:Person .
