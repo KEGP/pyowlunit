@@ -136,5 +136,5 @@ class TestSuite(object):
     log.debug("Running IV tests")
     self.test_inference_verification()
 
-    log.warning(f"{len(self.passed_tests)}/{len(self.tests)} test passed.")
+    log.warning(f"{len(self.passed_tests)}/{sum(len(tests) for tests in self.tests.values())} test passed.")
     
