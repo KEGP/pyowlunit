@@ -1,4 +1,4 @@
 rdflib
 colorlog
 dictdiffer
-jpype
+jpype1
